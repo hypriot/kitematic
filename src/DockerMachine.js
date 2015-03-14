@@ -84,7 +84,11 @@ var DockerMachine = {
     });
   },
   regenerateCerts: function () {
-    return util.exec([DockerMachine.command(), 'tls-regenerate-certs', '-f', NAME]);
+//+++
+//disable call to connect an external Docker Host
+//    return util.exec([DockerMachine.command(), 'tls-regenerate-certs', '-f', NAME]);
+    return Promise.resolve();
+//---
   },
   state: function () {
     return DockerMachine.info().then(info => {
