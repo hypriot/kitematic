@@ -5,7 +5,7 @@ var fs = require('fs');
 var util = require('./Util');
 var resources = require('./ResourcesUtil');
 
-var NAME = 'dev';
+var NAME = 'hypriot';
 
 var DockerMachine = {
   command: function () {
@@ -15,22 +15,14 @@ var DockerMachine = {
     return NAME;
   },
   isoversion: function () {
-    try {
-      var data = fs.readFileSync(path.join(util.home(), '.docker', 'machine', 'machines', NAME, 'boot2docker.iso'), 'utf8');
-      var match = data.match(/Boot2Docker-v(\d+\.\d+\.\d+)/);
-      if (match) {
-        return match[1];
-      } else {
-        return null;
-      }
-    } catch (err) {
-      return null;
-    }
+    var dockerversion = util.packagejson()['docker-version'];
+    return dockerversion;
   },
   info: function () {
     return util.exec([this.command(), 'ls']).then(stdout => {
       var lines = stdout.trim().split('\n').filter(line => line.indexOf('time=') === -1);
       var machines = {};
+
       lines.slice(1, lines.length).forEach(line => {
         var tokens = line.trim().split(/[\s]+/).filter(token => token !== '*');
         var machine = {
@@ -56,12 +48,8 @@ var DockerMachine = {
     });
   },
   create: function () {
-    var dockerversion = util.packagejson()['docker-version'];
-    if (util.isWindows()) {
-      return util.exec([this.command(), '-D', 'create', '-d', 'virtualbox', '--virtualbox-memory', '2048', NAME]);
-    } else {
-      return util.exec([this.command(), '-D', 'create', '-d', 'virtualbox', '--virtualbox-boot2docker-url', path.join(process.cwd(), 'resources', 'boot2docker-' + dockerversion + '.iso'), '--virtualbox-memory', '2048', NAME]);
-    }
+    var ipaddress = util.packagejson()['hypriot-ip-address'];
+    return util.exec([this.command(), '-D', 'create', '-d', 'hypriot', '--hypriot-ip-address', ipaddress, NAME]);
   },
   start: function () {
     return util.exec([this.command(), '-D', 'start', NAME]);
