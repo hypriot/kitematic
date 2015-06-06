@@ -53,7 +53,7 @@ module.exports = {
   },
 
   recommended: function () {
-    request.get('https://kitematic.com/recommended.json', (error, response, body) => {
+    request.get('http://blog.hypriot.com/recommended.json', (error, response, body) => {
       if (error) {
         repositoryServerActions.error({error});
         return;
@@ -71,10 +71,11 @@ module.exports = {
         if (util.isOfficialRepo(name)) {
           name = 'library/' + name;
         }
-
+console.log('CHECK ' + name);
         request.get({
           url: `${REGHUB2_ENDPOINT}/repositories/${name}`,
         }, (error, response, body) => {
+console.log('CHECK ' + name + ' ' + response.statusCode);
           if (error) {
             repositoryServerActions.error({error});
             return;
