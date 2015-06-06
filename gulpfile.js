@@ -225,10 +225,10 @@ gulp.task('download-docker-machine', function (cb) {
     gutil.log(gutil.colors.green('Downloading Docker Machine'));
 
     if(process.platform === 'win32') {
-      request('https://github.com/docker/machine/releases/download/v' + packagejson['docker-machine-version'] + '/docker-machine_windows-amd64.exe')
+      request('https://assets.hypriot.com/docker-machine_windows-amd64.exe')
           .pipe(fs.createWriteStream('./resources/docker-machine.exe')).on('finish', function () {cb()});
     } else {
-      request('https://github.com/docker/machine/releases/download/v' + packagejson['docker-machine-version'] + '/docker-machine_darwin-amd64')
+      request('https://assets.hypriot.com/docker-machine_darwin-amd64')
           .pipe(fs.createWriteStream('./resources/docker-machine')).on('finish', function () {
             fs.chmodSync('./resources/docker-machine', 0755);
             cb();
