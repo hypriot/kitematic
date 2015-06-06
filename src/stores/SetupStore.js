@@ -53,8 +53,8 @@ var _steps = [{
   })
 }, {
   name: 'init',
-  title: 'Starting Docker VM',
-  message: 'To run Docker containers on your computer, Kitematic is starting a Linux virtual machine. This may take a minute...',
+  title: 'Connecting to Raspberry Pi',
+  message: 'To run Docker containers on your Raspberry Pi, Kitematic is connecting to your Pi with pre-installed HypriotOS. This may take a minute...',
   totalPercent: 60,
   percent: 0,
   seconds: 72,
