@@ -13,6 +13,7 @@ var DockerMachine = {
     return 'default';
   },
   isoversion: function (machineName = this.name()) {
+    return '1.8.1';
     try {
       var data = fs.readFileSync(path.join(util.home(), '.docker', 'machine', 'machines', machineName, 'boot2docker.iso'), 'utf8');
       var match = data.match(/Boot2Docker-v(\d+\.\d+\.\d+)/);
@@ -26,6 +27,13 @@ var DockerMachine = {
     }
   },
   info: function (machineName = this.name()) {
+    var machine = {
+      name: 'default',
+      driver: 'virtualbox',
+      state: 'Running',
+      url: 'tcp://127.0.0.1:2375'
+    };
+    return Promise.resolve(machine);
     return util.exec([this.command(), 'ls']).then(stdout => {
       var lines = stdout.trim().split('\n').filter(line => line.indexOf('time=') === -1);
       var machines = {};
@@ -47,6 +55,7 @@ var DockerMachine = {
     });
   },
   exists: function (machineName = this.name()) {
+    return Promise.resolve(true);
     return this.info(machineName).then(() => {
       return true;
     }).catch(() => {
@@ -69,6 +78,7 @@ var DockerMachine = {
     return util.exec([this.command(), 'rm', '-f', machineName]);
   },
   ip: function (machineName = this.name()) {
+    return Promise.resolve('127.0.0.1');
     return util.exec([this.command(), 'ip', machineName]).then(stdout => {
       return Promise.resolve(stdout.trim().replace('\n', ''));
     });

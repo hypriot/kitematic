@@ -27,12 +27,12 @@ export default {
 
     this.host = ip;
     this.client = new dockerode({
-      protocol: 'https',
+      protocol: 'http',
       host: ip,
-      port: 2376,
-      ca: fs.readFileSync(path.join(certDir, 'ca.pem')),
-      cert: fs.readFileSync(path.join(certDir, 'cert.pem')),
-      key: fs.readFileSync(path.join(certDir, 'key.pem'))
+      port: 2375//,
+      //ca: fs.readFileSync(path.join(certDir, 'ca.pem')),
+      //cert: fs.readFileSync(path.join(certDir, 'cert.pem')),
+      //key: fs.readFileSync(path.join(certDir, 'key.pem'))
     });
   },
 
@@ -348,6 +348,7 @@ export default {
   },
 
   pullImage (repository, tag, callback, progressCallback, blockedCallback) {
+    return callback(null);
     let opts = {}, config = hubUtil.config();
     if (!hubUtil.config()) {
       opts = {};

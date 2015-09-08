@@ -20,6 +20,7 @@ var VirtualBox = {
     return `https://github.com/kitematic/virtualbox/releases/download/${util.packagejson()['virtualbox-version']}/${this.filename()}`;
   },
   installed: function () {
+    return true;
     if(util.isWindows()) {
       return fs.existsSync('C:\\Program Files\\Oracle\\VirtualBox\\VBoxManage.exe') && fs.existsSync('C:\\Program Files\\Oracle\\VirtualBox\\VirtualBox.exe');
     } else {
